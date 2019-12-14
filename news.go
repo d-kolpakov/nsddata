@@ -3,9 +3,14 @@ package nsddata
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 )
 
-type NewsResponse struct {
+//easyjson:json
+type NewsResponse []News
+
+//easyjson:json
+type News struct {
 	TitleRu       string `json:"title_ru"`
 	BodyRu        string `json:"body_ru"`
 	NewsThemeID   int    `json:"news_theme_id"`
@@ -130,8 +135,8 @@ const (
 	FilterLESSEQ = "$lte"
 )
 
-func (n *NSDDataAPIClient) GetNews(limit, skip int, filter map[string]map[string]interface{}) []NewsResponse {
-	resp := make([]NewsResponse, 0, 100)
+func (n *NSDDataAPIClient) GetNews(limit, skip int, filter map[string]map[string]interface{}) NewsResponse {
+	var resp NewsResponse
 
 	n.debug("Generating base url for get news method")
 
@@ -173,5 +178,23 @@ func (n *NSDDataAPIClient) GetNews(limit, skip int, filter map[string]map[string
 	url += params
 
 	fmt.Println(url)
+	r, err := n.O.Client.Get(url)
+
+	if err != nil {
+		panic(err)
+	}
+
+	bResp, err := ioutil.ReadAll(r.Body)
+
+	if err != nil {
+		panic(err)
+	}
+
+	err = resp.UnmarshalJSON(bResp)
+
+	if err != nil {
+		panic(err)
+	}
+
 	return resp
 }

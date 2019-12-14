@@ -17,7 +17,73 @@ var (
 	_ easyjson.Marshaler
 )
 
-func easyjsonCa3fdb35DecodeGithubComDKolpakovNsddataNsddata(in *jlexer.Lexer, out *NewsResponse) {
+func easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata(in *jlexer.Lexer, out *NewsResponse) {
+	isTopLevel := in.IsStart()
+	if in.IsNull() {
+		in.Skip()
+		*out = nil
+	} else {
+		in.Delim('[')
+		if *out == nil {
+			if !in.IsDelim(']') {
+				*out = make(NewsResponse, 0, 1)
+			} else {
+				*out = NewsResponse{}
+			}
+		} else {
+			*out = (*out)[:0]
+		}
+		for !in.IsDelim(']') {
+			var v1 News
+			(v1).UnmarshalEasyJSON(in)
+			*out = append(*out, v1)
+			in.WantComma()
+		}
+		in.Delim(']')
+	}
+	if isTopLevel {
+		in.Consumed()
+	}
+}
+func easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata(out *jwriter.Writer, in NewsResponse) {
+	if in == nil && (out.Flags&jwriter.NilSliceAsEmpty) == 0 {
+		out.RawString("null")
+	} else {
+		out.RawByte('[')
+		for v2, v3 := range in {
+			if v2 > 0 {
+				out.RawByte(',')
+			}
+			(v3).MarshalEasyJSON(out)
+		}
+		out.RawByte(']')
+	}
+}
+
+// MarshalJSON supports json.Marshaler interface
+func (v NewsResponse) MarshalJSON() ([]byte, error) {
+	w := jwriter.Writer{}
+	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata(&w, v)
+	return w.Buffer.BuildBytes(), w.Error
+}
+
+// MarshalEasyJSON supports easyjson.Marshaler interface
+func (v NewsResponse) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata(w, v)
+}
+
+// UnmarshalJSON supports json.Unmarshaler interface
+func (v *NewsResponse) UnmarshalJSON(data []byte) error {
+	r := jlexer.Lexer{Data: data}
+	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata(&r, v)
+	return r.Error()
+}
+
+// UnmarshalEasyJSON supports easyjson.Unmarshaler interface
+func (v *NewsResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata(l, v)
+}
+func easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata1(in *jlexer.Lexer, out *News) {
 	isTopLevel := in.IsStart()
 	if in.IsNull() {
 		if isTopLevel {
@@ -72,7 +138,7 @@ func easyjsonCa3fdb35DecodeGithubComDKolpakovNsddataNsddata(in *jlexer.Lexer, ou
 		in.Consumed()
 	}
 }
-func easyjsonCa3fdb35EncodeGithubComDKolpakovNsddataNsddata(out *jwriter.Writer, in NewsResponse) {
+func easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata1(out *jwriter.Writer, in News) {
 	out.RawByte('{')
 	first := true
 	_ = first
@@ -145,27 +211,27 @@ func easyjsonCa3fdb35EncodeGithubComDKolpakovNsddataNsddata(out *jwriter.Writer,
 }
 
 // MarshalJSON supports json.Marshaler interface
-func (v NewsResponse) MarshalJSON() ([]byte, error) {
+func (v News) MarshalJSON() ([]byte, error) {
 	w := jwriter.Writer{}
-	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddataNsddata(&w, v)
+	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata1(&w, v)
 	return w.Buffer.BuildBytes(), w.Error
 }
 
 // MarshalEasyJSON supports easyjson.Marshaler interface
-func (v NewsResponse) MarshalEasyJSON(w *jwriter.Writer) {
-	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddataNsddata(w, v)
+func (v News) MarshalEasyJSON(w *jwriter.Writer) {
+	easyjsonCa3fdb35EncodeGithubComDKolpakovNsddata1(w, v)
 }
 
 // UnmarshalJSON supports json.Unmarshaler interface
-func (v *NewsResponse) UnmarshalJSON(data []byte) error {
+func (v *News) UnmarshalJSON(data []byte) error {
 	r := jlexer.Lexer{Data: data}
-	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddataNsddata(&r, v)
+	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata1(&r, v)
 	return r.Error()
 }
 
 // UnmarshalEasyJSON supports easyjson.Unmarshaler interface
-func (v *NewsResponse) UnmarshalEasyJSON(l *jlexer.Lexer) {
-	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddataNsddata(l, v)
+func (v *News) UnmarshalEasyJSON(l *jlexer.Lexer) {
+	easyjsonCa3fdb35DecodeGithubComDKolpakovNsddata1(l, v)
 }
 func easyjsonCa3fdb35Decode(in *jlexer.Lexer, out *struct {
 	ID             int `json:"id"`
@@ -390,7 +456,7 @@ func easyjsonCa3fdb35Decode(in *jlexer.Lexer, out *struct {
 					out.Securities = (out.Securities)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v1 struct {
+					var v4 struct {
 						ID        int    `json:"id"`
 						Isin      string `json:"isin"`
 						CodeNsd   string `json:"code_nsd"`
@@ -428,8 +494,8 @@ func easyjsonCa3fdb35Decode(in *jlexer.Lexer, out *struct {
 							TaxNumber   string `json:"tax_number"`
 						} `json:"issuer"`
 					}
-					easyjsonCa3fdb35Decode3(in, &v1)
-					out.Securities = append(out.Securities, v1)
+					easyjsonCa3fdb35Decode3(in, &v4)
+					out.Securities = append(out.Securities, v4)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -596,11 +662,11 @@ func easyjsonCa3fdb35Encode(out *jwriter.Writer, in struct {
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v2, v3 := range in.Securities {
-				if v2 > 0 {
+			for v5, v6 := range in.Securities {
+				if v5 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonCa3fdb35Encode3(out, v3)
+				easyjsonCa3fdb35Encode3(out, v6)
 			}
 			out.RawByte(']')
 		}
@@ -1331,7 +1397,7 @@ func easyjsonCa3fdb35Decode2(in *jlexer.Lexer, out *struct {
 					out.Items = (out.Items)[:0]
 				}
 				for !in.IsDelim(']') {
-					var v4 struct {
+					var v7 struct {
 						Security struct {
 							ID        int    `json:"id"`
 							Isin      string `json:"isin"`
@@ -1362,8 +1428,8 @@ func easyjsonCa3fdb35Decode2(in *jlexer.Lexer, out *struct {
 							NameFull  string `json:"name_full"`
 						} `json:"currency"`
 					}
-					easyjsonCa3fdb35Decode9(in, &v4)
-					out.Items = append(out.Items, v4)
+					easyjsonCa3fdb35Decode9(in, &v7)
+					out.Items = append(out.Items, v7)
 					in.WantComma()
 				}
 				in.Delim(']')
@@ -1469,11 +1535,11 @@ func easyjsonCa3fdb35Encode2(out *jwriter.Writer, in struct {
 			out.RawString("null")
 		} else {
 			out.RawByte('[')
-			for v5, v6 := range in.Items {
-				if v5 > 0 {
+			for v8, v9 := range in.Items {
+				if v8 > 0 {
 					out.RawByte(',')
 				}
-				easyjsonCa3fdb35Encode9(out, v6)
+				easyjsonCa3fdb35Encode9(out, v9)
 			}
 			out.RawByte(']')
 		}
